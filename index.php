@@ -1,5 +1,5 @@
 <?php
-$cantonArr = array(
+$cantonArr = [
     1 => 'zürich',
     2 => 'bern',
     3 => 'luzern',
@@ -26,18 +26,73 @@ $cantonArr = array(
     24 => 'neuenburg',
     25 => 'genf',
     26 => 'jura'
-);
+];
 
-$cantonInput = array_search(strtolower($_GET['canton']), $cantonArr);
-$cantonIndex = array_search($cantonInput, array_keys($cantonArr)) + 1;
+$biggestMountains = [
+    'dufourspitze',
+    'nordend',
+    'liskamm',
+    'täschhorn',
+    'dom'
+];
+
+$biggestLakes = [
+    'genfersee',
+    'bodensee',
+    'neuenburgersee',
+    'lago Maggiore',
+    'vierwaldstättersee'
+];
+
+$biggestRivers = [
+    'rhein',
+    'aare',
+    'rhône',
+    'reuss',
+    'thur'
+];
+
+$cantonInput = strtolower($_GET['canton']);
+$cantonIndex = array_search($cantonInput, $cantonArr);
+$mountainInput = strtolower($_GET['biggestMountains']);
+$lakeInput = strtolower($_GET['biggestLakes']);
+$riverInput = strtolower($_GET['biggestRivers']);
 
 if (isset($_GET['canton'])) {
-    if(array_search($cantonInput, array_keys($cantonArr))) {
+    if($cantonIndex) {
         $canton = twoWordString($cantonArr[$cantonIndex], str_contains($cantonArr[$cantonIndex], ' '), str_contains($cantonArr[$cantonIndex], '-'));
         print_r('This is '. ucfirst($canton));
     } else {
         print_r('This is not a canton');
     }
+    print_r('<br>');
+}
+
+if (isset($_GET['biggestMountains'])) {
+    if (in_array($mountainInput, $biggestMountains)) {
+        print_r(ucfirst($mountainInput) . ' is one of the top five mountains');
+    } else {
+        print_r('This is not a top five mountain');
+    }
+    print_r('<br>');
+}
+
+if (isset($_GET['biggestLakes'])) {
+    if (in_array($lakeInput, $biggestLakes)) {
+        print_r(ucfirst($lakeInput) . ' is one of the top five lakes');
+    } else {
+        print_r('This is not a top five lake');
+    }
+    print_r('<br>');
+}
+
+if (isset($_GET['biggestRivers'])) {
+    if (in_array($riverInput, $biggestRivers)) {
+        print_r(ucfirst($riverInput) . ' is one of the top five rivers');
+    } else {
+        print_r('This is not a top five river');
+    }
+    print_r('<br>');
 }
 
 function twoWordString(string $canton, bool $space, bool $dash) : string {
